@@ -3,6 +3,7 @@ package com.gildedrose;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -118,5 +119,42 @@ public class IntegrationTest {
 
         assertEquals(-49, items[1].sellIn);
         assertEquals(50, items[1].quality);
+    }
+
+    @Test
+    public void backstagePass() {
+        Item[] items = {new Item("Backstage passes to a TAFKAL80ETC concert", 11, 0)};
+        GildedRose gildedRose = new GildedRose(items);
+
+        gildedRose.updateQuality();
+        assertEquals(10, items[0].sellIn);
+        assertEquals(1, items[0].quality);
+
+        gildedRose.updateQuality();
+        assertEquals(9, items[0].sellIn);
+        assertEquals(3, items[0].quality);
+
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
+        assertEquals(5, items[0].sellIn);
+        assertEquals(11, items[0].quality);
+
+        gildedRose.updateQuality();
+        assertEquals(4, items[0].sellIn);
+        assertEquals(14, items[0].quality);
+
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
+        gildedRose.updateQuality();
+        assertEquals(0, items[0].sellIn);
+        assertEquals(26, items[0].quality);
+
+        gildedRose.updateQuality();
+        assertEquals(-1, items[0].sellIn);
+        assertEquals(0, items[0].quality);
+
     }
 }
