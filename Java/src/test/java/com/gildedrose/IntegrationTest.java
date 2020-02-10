@@ -75,4 +75,48 @@ public class IntegrationTest {
             assertEquals(day2[i].name, items[i].name);
         }
     }
+
+    @Test
+    public void passedSellByDate() {
+        Item[] items = Arrays.stream(day0).map(item -> new Item(item.name, item.sellIn, item.quality)).toArray(Item[]::new);
+        GildedRose gildedRose = new GildedRose(items);
+
+        for(int i = 0; i < 10; i++) {
+            gildedRose.updateQuality();
+        }
+
+        assertEquals(0, items[0].sellIn);
+        assertEquals(10, items[0].quality);
+
+        gildedRose.updateQuality();
+
+        assertEquals(-1, items[0].sellIn);
+        assertEquals(8, items[0].quality);
+    }
+
+    @Test
+    public void qualityIsNeverNegative() {
+        Item[] items = Arrays.stream(day0).map(item -> new Item(item.name, item.sellIn, item.quality)).toArray(Item[]::new);
+        GildedRose gildedRose = new GildedRose(items);
+
+        for(int i = 0; i < 20; i++) {
+            gildedRose.updateQuality();
+        }
+
+        assertEquals(-10, items[0].sellIn);
+        assertEquals(0, items[0].quality);
+    }
+
+    @Test
+    public void qualityIsNeverOver50() {
+        Item[] items = Arrays.stream(day0).map(item -> new Item(item.name, item.sellIn, item.quality)).toArray(Item[]::new);
+        GildedRose gildedRose = new GildedRose(items);
+
+        for(int i = 0; i < 51; i++) {
+            gildedRose.updateQuality();
+        }
+
+        assertEquals(-49, items[1].sellIn);
+        assertEquals(50, items[1].quality);
+    }
 }
